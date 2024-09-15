@@ -81,7 +81,7 @@ const ScrapeManga = () => {
 
   return (
     <section className="p-10 grid grid-cols-3 gap-6">
-      <Card className="col-span-2 shadow-lg rounded-lg border border-gray-200">
+      <Card className="col-span-2 shadow-lg rounded-lg  ">
         <CardBody>
           <h2 className="text-2xl font-semibold mb-5 text-center">
             Scrape Manga Data
@@ -103,7 +103,7 @@ const ScrapeManga = () => {
                   fullWidth
                   onChange={(e) => searchManga(e.target.value)}
                 />
-                <div className="w-full min-h-[200px] max-w-full border rounded-md p-3 bg-gray-50 dark:bg-gray-800">
+                <div className="w-full min-h-[200px] max-w-full  rounded-md p-3 bg-gray-50 dark:bg-gray-800">
                   {loading ? (
                     <div className="flex justify-center items-center h-full">
                       <Spinner color="primary" size="lg" />

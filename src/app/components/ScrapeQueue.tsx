@@ -47,7 +47,7 @@ export default function ScrapeQueue() {
   };
 
   return (
-    <Card className="h-full shadow-lg rounded-lg border border-gray-200">
+    <Card className="h-full shadow-lg rounded-lg border border-gray-200 dark:border-none">
       <CardHeader className="text-2xl font-semibold mb-5 flex items-center justify-center">
         <h1>Current Queue</h1>
       </CardHeader>
@@ -55,7 +55,7 @@ export default function ScrapeQueue() {
         <div
           className={`h-52 w-52 rounded-full flex items-center justify-center ${onGoingJobColor()}`}
         >
-          <div className="h-44 w-44 bg-white rounded-full flex items-center justify-center">
+          <div className="h-44 w-44 bg-white dark:bg-[#18181B] rounded-full flex items-center justify-center">
             <h4 className={`text-6xl font-bold ${onGoingJobTextColor()}`}>
               {onGoingJob}
             </h4>
