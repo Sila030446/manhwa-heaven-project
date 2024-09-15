@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Tabs,
   Tab,
@@ -17,11 +17,14 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import ScrapeQueue from "@/app/components/ScrapeQueue";
+import CurrentlyScrapeTable from "./components/currently-scaping-table";
 
 const ScrapeManga = () => {
   const [mangas, setManga] = useState<{ title: string; mangaUrl: string }[]>(
     []
   );
+  const [jobs, setJobs] = useState([]);
+
   const [selectedManga, setSelectedManga] = useState<
     { title: string; mangaUrl: string } | undefined
   >(undefined);
@@ -78,6 +81,32 @@ const ScrapeManga = () => {
       console.error("Error starting the scrape job:", error);
     }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios.get("http://localhost:8000/job");
+        if (!data) throw new Error("Network response was not ok");
+        setJobs(data.data.jobs);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+
+        // SweetAlert for handling backend errors
+        Swal.fire({
+          icon: "error",
+          title: "Server Error",
+          text: "Failed to fetch data from the Server. Please try again later.",
+          footer: `<a href="http://localhost:8000">Check Backend Server</a>`, // Optional link for debugging
+        });
+      }
+    };
+
+    // Fetch data every 3 seconds
+    const interval = setInterval(() => getData(), 3000);
+
+    // Cleanup on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="p-10 grid grid-cols-3 gap-6">
@@ -184,6 +213,9 @@ const ScrapeManga = () => {
         </CardFooter>
       </Card>
       <ScrapeQueue />
+      <div className="col-span-3">
+        <CurrentlyScrapeTable jobs={jobs} />
+      </div>
     </section>
   );
 };
