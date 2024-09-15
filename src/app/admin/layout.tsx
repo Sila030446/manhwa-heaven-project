@@ -19,16 +19,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <Providers>
-          <div className="flex">
-            <div>
-              <Sidebar>
-                <div className="flex flex-col w-full">
-                  <SidebarItems />
-                </div>
-              </Sidebar>
-            </div>
-            <div>{children}</div>
-          </div>
+          <section className="bg-default-100 flex">
+            <Sidebar>
+              <SidebarItems />
+            </Sidebar>
+            <section className="flex-1 flex flex-col">{children}</section>
+          </section>
         </Providers>
       </body>
     </html>
