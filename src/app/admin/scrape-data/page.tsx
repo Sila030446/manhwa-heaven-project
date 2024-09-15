@@ -204,9 +204,8 @@ const ScrapeManga = () => {
           )}
           <Button
             size="lg"
-            className="w-full bg-blue-500 hover:bg-blue-600"
+            className="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer text-white"
             onClick={startScrapping}
-            disabled={!selectedManga}
           >
             Start Scraping
           </Button>
