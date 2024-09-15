@@ -14,7 +14,7 @@ const SidebarContext = createContext<SidebarContextType>({ expanded: true });
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const [expanded, setExpanded] = useState(true);
   return (
-    <aside className="h-screen">
+    <aside className="h-[100vh] sticky z-50">
       <nav className="h-full flex flex-col bg-default-50 border-r dark:border-gray-900 shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Image

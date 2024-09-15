@@ -11,19 +11,27 @@ import {
   Button,
   Listbox,
   ListboxItem,
+  Spinner,
+  Divider,
 } from "@nextui-org/react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import ScrapeQueue from "@/app/components/ScrapeQueue";
 
 const ScrapeManga = () => {
   const [mangas, setManga] = useState<{ title: string; mangaUrl: string }[]>(
     []
   );
-  const [selectedManga, setSelectedManga] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedManga, setSelectedManga] = useState<
+    { title: string; mangaUrl: string } | undefined
+  >(undefined);
+  const [activeTabKey, setActiveTabKey] = useState<string>("makima");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const searchManga = async (searchQuery: string) => {
-    if (!searchQuery.trim()) return; // Prevent fetching for empty input
+    if (!searchQuery.trim()) return;
 
+    setLoading(true); // Start loading
     try {
       const response = await fetch(
         `http://localhost:8000/manga/search?q=${searchQuery}`
@@ -32,53 +40,127 @@ const ScrapeManga = () => {
 
       const parsed: { title: string; mangaUrl: string }[] =
         await response.json();
-      setManga(parsed); // Update state with fetched manga titles
-      console.log(parsed); // Log the entire parsed response for debugging
+      setManga(parsed);
     } catch (error) {
       console.error("Error fetching manga:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  const startScrapping = async () => {
+    if (!selectedManga) {
+      Swal.fire({
+        icon: "error",
+        title: "No Manga Selected",
+        text: "Please select a manga to scrape!",
+      });
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:8000/job", {
+        url: selectedManga.mangaUrl,
+        jobType: { type: activeTabKey }, // Send the active tab key as the job type
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Scrape Started",
+        text: `Scrape job for "${selectedManga.title}" started successfully!`,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Scraping Failed",
+        text: "Error starting the scrape job. Please try again later.",
+      });
+      console.error("Error starting the scrape job:", error);
     }
   };
 
   return (
-    <section className="m-10 grid grid-cols-3 gap-5">
-      <Card className="col-span-2">
+    <section className="p-10 grid grid-cols-3 gap-6">
+      <Card className="col-span-2 shadow-lg rounded-lg border border-gray-200">
         <CardBody>
-          <Tabs>
-            <Tab key="makimaaaaaa" title="Makimaaaaaa.com">
-              <Input
-                type="text"
-                label="Search for a Manga Title"
-                onChange={(e) => searchManga(e.target.value)}
-              />
-              <div className="w-full min-h-[200px] max-w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100 mt-5">
-                <Listbox
-                  aria-label="Manga Titles"
-                  onAction={(key) => setSelectedManga(key as string)}
-                >
-                  {mangas.map((manga) => (
-                    <ListboxItem
-                      key={manga.title} // Use manga.title as a key for better stability
-                      color="primary"
-                      className="text-primary-500"
-                      value={manga.title}
+          <h2 className="text-2xl font-semibold mb-5 text-center">
+            Scrape Manga Data
+          </h2>
+          <Divider />
+          <Tabs
+            selectedKey={activeTabKey}
+            onSelectionChange={(key) => setActiveTabKey(String(key))}
+            aria-label="Manga Sources"
+            className="mt-5"
+          >
+            <Tab key="makima" title="Makimaaaaaa.com">
+              <div className="mt-5">
+                <Input
+                  type="text"
+                  label="Search for a Manga Title"
+                  className="mb-5"
+                  placeholder="Enter manga title"
+                  fullWidth
+                  onChange={(e) => searchManga(e.target.value)}
+                />
+                <div className="w-full min-h-[200px] max-w-full border rounded-md p-3 bg-gray-50 dark:bg-gray-800">
+                  {loading ? (
+                    <div className="flex justify-center items-center h-full">
+                      <Spinner color="primary" size="lg" />
+                    </div>
+                  ) : mangas.length === 0 ? (
+                    <div className="text-center text-gray-500">
+                      No manga found. Try searching for a title.
+                    </div>
+                  ) : (
+                    <Listbox
+                      className="overflow-y-scroll max-h-80"
+                      aria-label="Manga Titles"
+                      onAction={(key) => {
+                        const selected = mangas.find(
+                          (manga) => manga.title === key
+                        );
+                        if (selected) {
+                          setSelectedManga(selected);
+                        }
+                      }}
                     >
-                      {manga.title}
-                    </ListboxItem>
-                  ))}
-                </Listbox>
+                      {mangas.map((manga) => (
+                        <ListboxItem
+                          key={manga.title}
+                          color="primary"
+                          className="text-primary-500 w-full"
+                          value={manga.title}
+                        >
+                          {manga.title}
+                        </ListboxItem>
+                      ))}
+                    </Listbox>
+                  )}
+                </div>
               </div>
             </Tab>
-            <Tab key="Reapertrans" title="Reapertrans.com">
-              <Card>
+            <Tab key="reapertrans" title="Reapertrans.com">
+              <Card className="mt-5 shadow-none">
                 <CardBody>
-                  <Input type="text" label="Scrape data for a specific URL" />
+                  <Input
+                    type="text"
+                    label="Scrape data for a specific URL"
+                    placeholder="Enter URL to scrape"
+                    fullWidth
+                  />
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key="Go-manga" title="Go-manga.com">
-              <Card>
+            <Tab key="go-manga" title="Go-manga.com">
+              <Card className="mt-5 shadow-none">
                 <CardBody>
-                  <Input type="text" label="Scrape data for a specific URL" />
+                  <Input
+                    type="text"
+                    label="Scrape data for a specific URL"
+                    placeholder="Enter URL to scrape"
+                    fullWidth
+                  />
                 </CardBody>
               </Card>
             </Tab>
@@ -86,15 +168,22 @@ const ScrapeManga = () => {
         </CardBody>
         <CardFooter className="flex flex-col gap-5">
           {selectedManga && (
-            <h1 className="text-xl">Scrape data for {selectedManga}</h1>
+            <h1 className="text-xl text-center font-semibold">
+              Ready to scrape:{" "}
+              <span className="text-blue-600">{selectedManga.title}</span>
+            </h1>
           )}
-          <Button size="lg" className="w-full" color="primary">
-            Scrape
+          <Button
+            size="lg"
+            className="w-full bg-blue-500 hover:bg-blue-600"
+            onClick={startScrapping}
+            disabled={!selectedManga}
+          >
+            Start Scraping
           </Button>
         </CardFooter>
       </Card>
-
-      <div className="col-span-3"></div>
+      <ScrapeQueue />
     </section>
   );
 };
