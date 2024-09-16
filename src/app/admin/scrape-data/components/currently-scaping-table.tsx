@@ -24,6 +24,7 @@ import { FaChevronDown, FaSearch } from "react-icons/fa";
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "primary",
   failed: "danger",
+  update: "warning",
   complete: "success",
 };
 
@@ -39,6 +40,7 @@ const statusOptions = [
   { name: "Active", uid: "active" },
   { name: "Failed", uid: "failed" },
   { name: "Complete", uid: "complete" },
+  { name: "Updated", uid: "updated" },
 ];
 
 interface JobType {
@@ -47,7 +49,7 @@ interface JobType {
   createdAt: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jobType: any;
-  status: "active" | "failed" | "complete";
+  status: "active" | "failed" | "complete" | "updated";
 }
 
 export default function CurrentlyScrapingTable({ jobs }: { jobs: JobType[] }) {
