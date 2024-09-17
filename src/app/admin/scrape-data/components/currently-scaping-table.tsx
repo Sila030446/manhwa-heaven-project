@@ -24,7 +24,7 @@ import { FaChevronDown, FaSearch } from "react-icons/fa";
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "primary",
   failed: "danger",
-  update: "warning",
+  updated: "warning",
   complete: "success",
 };
 
