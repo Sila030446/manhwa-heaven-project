@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
 
 import "../globals.css";
 import { Providers } from "../providers";
@@ -24,9 +23,7 @@ export default function RootLayout({
             <Sidebar>
               <SidebarItems />
             </Sidebar>
-            <section className="flex-1 flex flex-col">
-              {children} <Analytics />
-            </section>
+            <section className="flex-1 flex flex-col">{children}</section>
           </section>
         </Providers>
       </body>

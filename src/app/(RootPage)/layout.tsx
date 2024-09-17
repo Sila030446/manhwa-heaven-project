@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
 
 import "../globals.css";
 import { Providers } from "../providers";
+import NavbarComponent from "../components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +18,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <Providers>
-          <div>Navbar</div>
+          <NavbarComponent />
           {children}
-          <Analytics />
         </Providers>
       </body>
     </html>
