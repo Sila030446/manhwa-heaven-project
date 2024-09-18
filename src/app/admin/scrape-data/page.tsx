@@ -46,6 +46,11 @@ const ScrapeManga = () => {
       setManga(parsed);
     } catch (error) {
       console.error("Error fetching manga:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to fetch manga data. Please try again later.",
+      });
     } finally {
       setLoading(false); // Stop loading
     }
@@ -110,7 +115,7 @@ const ScrapeManga = () => {
 
   return (
     <section className="p-10 grid grid-cols-3 gap-6">
-      <Card className="col-span-2 shadow-lg rounded-lg  ">
+      <Card className="col-span-2 shadow-lg rounded-lg">
         <CardBody>
           <h2 className="text-2xl font-semibold mb-5 text-center">
             Scrape Manga Data
@@ -132,7 +137,7 @@ const ScrapeManga = () => {
                   fullWidth
                   onChange={(e) => searchManga(e.target.value)}
                 />
-                <div className="w-full min-h-[200px] max-w-full  rounded-md p-3 bg-gray-50 dark:bg-gray-800">
+                <div className="w-full min-h-[200px] max-w-full rounded-md p-3 bg-gray-50 dark:bg-gray-800">
                   {loading ? (
                     <div className="flex justify-center items-center h-full">
                       <Spinner color="primary" size="lg" />
@@ -171,25 +176,51 @@ const ScrapeManga = () => {
             </Tab>
             <Tab key="reapertrans" title="Reapertrans.com">
               <Card className="mt-5 shadow-none">
-                <CardBody>
+                <CardBody className="flex gap-y-2">
                   <Input
                     type="text"
                     label="Scrape data for a specific URL"
                     placeholder="Enter URL to scrape"
                     fullWidth
+                    onChange={(e) =>
+                      setSelectedManga({
+                        title: "Reapertrans Manga",
+                        mangaUrl: e.target.value,
+                      })
+                    }
                   />
+                  <Button
+                    className="mt-2"
+                    onClick={startScrapping}
+                    disabled={!selectedManga?.mangaUrl}
+                  >
+                    Start Scraping
+                  </Button>
                 </CardBody>
               </Card>
             </Tab>
             <Tab key="go-manga" title="Go-manga.com">
               <Card className="mt-5 shadow-none">
-                <CardBody>
+                <CardBody className="flex gap-y-2">
                   <Input
                     type="text"
                     label="Scrape data for a specific URL"
                     placeholder="Enter URL to scrape"
                     fullWidth
+                    onChange={(e) =>
+                      setSelectedManga({
+                        title: "Go-Manga",
+                        mangaUrl: e.target.value,
+                      })
+                    }
                   />
+                  <Button
+                    className="mt-2"
+                    onClick={startScrapping}
+                    disabled={!selectedManga?.mangaUrl}
+                  >
+                    Start Scraping
+                  </Button>
                 </CardBody>
               </Card>
             </Tab>
@@ -204,7 +235,7 @@ const ScrapeManga = () => {
           )}
           <Button
             size="lg"
-            className="w-full bg-blue-500 hover:bg-blue-600  text-white"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white"
             onClick={startScrapping}
           >
             Start Scraping
