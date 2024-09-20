@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Kanit: ["var(--font-kanit)"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
