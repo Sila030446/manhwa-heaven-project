@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
+// Type definitions
 type Types = {
   id: number;
   name: string;
@@ -42,10 +43,17 @@ const usePopularManga = () => {
       try {
         const response = await fetch("http://localhost:8000/manga/popular");
         if (!response.ok) throw new Error("Failed to fetch popular manga");
-        const data = await response.json();
+
+        // Adding type safety for the response
+        const data: Manga[] = await response.json();
         setMangaList(data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error: unknown) {
+        // Type narrowing for error object
+        if (error instanceof Error) {
+          setError(error.message); // Handle error with proper type
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }

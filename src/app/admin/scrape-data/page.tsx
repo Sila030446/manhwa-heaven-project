@@ -160,14 +160,14 @@ const ScrapeManga = () => {
                       }}
                     >
                       {mangas.map((manga) => (
-                        <Button
+                        <ListboxItem
                           key={manga.title}
                           color="primary"
                           className="text-primary-500 w-full"
                           value={manga.title}
                         >
                           {manga.title}
-                        </Button>
+                        </ListboxItem>
                       ))}
                     </Listbox>
                   )}
