@@ -5,7 +5,20 @@ import { useRouter } from "next/navigation";
 import { Image, Button, Progress } from "@nextui-org/react";
 import { ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
-async function fetchPages(slug: string) {
+interface Page {
+  id: number;
+  imageUrl: string;
+  pageNumber: number;
+}
+
+interface Chapter {
+  title: string;
+  pages: Page[];
+  prevChapterSlug?: string;
+  nextChapterSlug?: string;
+}
+
+async function fetchPages(slug: string): Promise<Chapter | null> {
   try {
     const response = await fetch(`http://localhost:8000/manga/chapter/${slug}`);
     if (!response.ok) {
@@ -20,7 +33,7 @@ async function fetchPages(slug: string) {
 
 const ChapterPage = ({ params }: { params: { slug: string } }) => {
   const router = useRouter(); // Use router for navigation
-  const [chapter, setChapter] = useState<any | null>(null);
+  const [chapter, setChapter] = useState<Chapter | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
 
@@ -127,7 +140,7 @@ const ChapterPage = ({ params }: { params: { slug: string } }) => {
           <h1>{chapter.title}</h1>
 
           <div>
-            {chapter.pages.map((page: any) => (
+            {chapter.pages.map((page) => (
               <Image
                 radius="none"
                 loading="lazy"

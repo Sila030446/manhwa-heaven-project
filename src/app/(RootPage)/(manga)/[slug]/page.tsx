@@ -2,10 +2,50 @@ import { Card, CardBody, Link, Image, Button } from "@nextui-org/react";
 import { BookmarkIcon } from "lucide-react";
 import React from "react";
 
+interface Type {
+  id: number;
+  name: string;
+}
+
+interface Author {
+  id: number;
+  name: string;
+}
+
+interface Genre {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+interface Chapter {
+  chapterNumber: number;
+  slug: string;
+  title: string;
+  createdAt: string;
+}
+
+interface Manga {
+  title: string;
+  slug: string;
+  alternativeTitle: string;
+  coverImageUrl: string;
+  description: string;
+  type: Type[];
+  status: string;
+  authors: Author[];
+  serialization: string;
+  createdAt: string;
+  updatedAt: string;
+  genres: Genre[];
+  chapters: Chapter[];
+}
+
 // Fetching manga data based on slug
-async function getManga(slug: string) {
+async function getManga(slug: string): Promise<Manga | null> {
   const response = await fetch(`http://localhost:8000/manga/${slug}`);
-  const manga = await response.json();
+  if (!response.ok) return null;
+  const manga: Manga = await response.json();
   return manga;
 }
 
@@ -17,7 +57,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <div className="container mx-auto py-10 px-4 md:px-8 lg:px-16 flex items-center justify-center flex-col gap-2">
       {/* Manga Title Card */}
-      <Card className="shadow-lg rounded-lg ">
+      <Card className="shadow-lg rounded-lg">
         <CardBody className="p-4">
           <div className="flex flex-wrap gap-2 text-sm md:text-base font-Kanit text-gray-600">
             {/* Breadcrumb navigation */}
@@ -55,7 +95,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
         <div className="px-4 py-4">
           <div>
             <h1>Type</h1>
-            {manga.type.map((item: any) => (
+            {manga.type.map((item) => (
               <p
                 className="font-light text-sm text-foreground-400"
                 key={item.id}
@@ -72,7 +112,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div>
             <h1>Author</h1>
-            {manga.authors.map((author: any) => (
+            {manga.authors.map((author) => (
               <p
                 className="font-light text-sm text-foreground-400"
                 key={author.id}
@@ -101,9 +141,8 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
           </div>
           <h1>Genres</h1>
           <div className="flex flex-wrap overflow-auto gap-1">
-            {manga.genres.map((genre: any) => (
+            {manga.genres.map((genre) => (
               <div key={genre.id}>
-                {" "}
                 {/* Added margin for spacing */}
                 <Link href={`genres/${genre.slug}`}>
                   <Button>{genre.name}</Button>
@@ -116,7 +155,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
       <Card className="h-[500px]">
         <CardBody>
           <div className="w-full">
-            {manga.chapters.map((chapter: any) => (
+            {manga.chapters.map((chapter) => (
               <Link
                 className="w-full"
                 key={chapter.chapterNumber}
@@ -128,7 +167,6 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
                       {new Date(chapter.createdAt).toLocaleDateString("th-TH")}
                     </p>
                   }
-                  // You can use chapter.chapterNumber as a key if it's unique
                   className="my-1"
                   fullWidth
                 >
