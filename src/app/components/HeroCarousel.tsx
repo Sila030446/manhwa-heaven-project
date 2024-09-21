@@ -2,7 +2,7 @@
 import React from "react";
 import Slider from "react-slick";
 import usePopularManga from "../Hooks/usePopularManga";
-import { Card, Chip, Skeleton } from "@nextui-org/react";
+import { Chip, Skeleton } from "@nextui-org/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "@nextui-org/react";
@@ -46,8 +46,8 @@ const HeroCarousel: React.FC = () => {
     <div className="p-4 rounded-lg">
       <Slider {...settings} className="max-w-full">
         {mangaList.map((manga) => (
-          <div key={manga.id} className="w-full h-full">
-            <div className="absolute -z-10 rounded-xl">
+          <div key={manga.id} className="w-full h-full rounded-3xl">
+            <div className="absolute -z-10 ">
               <Image
                 src={manga.coverImageUrl}
                 objectFit="cover"
@@ -56,8 +56,8 @@ const HeroCarousel: React.FC = () => {
                 alt={manga.title}
               />
             </div>
-            <Card
-              className={`h-full flex flex-col md:flex-row bg-dark-200 p-3 rounded-lg shadow-xl max-w-[100%] min-h-[100%] mx-auto backdrop-blur-xl filter backdrop-brightness-50`}
+            <div
+              className={`h-full flex flex-col md:flex-row bg-dark-200 p-3 rounded-none shadow-xl max-w-[100%] min-h-[100%] mx-auto backdrop-blur-xl filter backdrop-brightness-50 `}
             >
               <div className="flex-shrink-0">
                 <Link href={manga.slug}>
@@ -75,7 +75,7 @@ const HeroCarousel: React.FC = () => {
               <div className="mt-4 md:mt-0 md:ml-4 flex-grow">
                 <div className="flex justify-between items-center mb-2">
                   <Link color="foreground" href={manga.slug}>
-                    <h3 className="font-semibold text-lg md:text-2xl font-Kanit text-white">
+                    <h3 className="font-semibold text-lg md:text-2xl font-Kanit text-white line-clamp-3">
                       {manga.title}
                     </h3>
                   </Link>
@@ -91,7 +91,7 @@ const HeroCarousel: React.FC = () => {
                   {manga.genres.map((genre) => (
                     <Link
                       key={genre.id}
-                      className="mx-0.5 mb-0.5 overflow-hidden"
+                      className="mx-0.5 mb-0.5 overflow-hidden font-Kanit"
                       href={`/genre/${genre.slug}`}
                     >
                       <Chip color="warning">{genre.name}</Chip>
@@ -107,7 +107,7 @@ const HeroCarousel: React.FC = () => {
                   </Chip>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         ))}
       </Slider>

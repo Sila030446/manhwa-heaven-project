@@ -40,6 +40,11 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <footer className="px-4 py-4 w-full bg-gray-500">
+            <p className="text-center">
+              © 2024 Manhwa Heaven. All rights reserved.
+            </p>
+          </footer>
         </Providers>
       </body>
     </html>

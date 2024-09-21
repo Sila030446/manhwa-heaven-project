@@ -57,7 +57,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <div className="container mx-auto py-10 px-4 md:px-8 lg:px-16 flex items-center justify-center flex-col gap-2">
       {/* Manga Title Card */}
-      <Card className="shadow-lg rounded-lg">
+      <Card className="shadow-lg rounded-lg w-full">
         <CardBody className="p-4">
           <div className="flex flex-wrap gap-2 text-sm md:text-base font-Kanit text-gray-600">
             {/* Breadcrumb navigation */}
@@ -73,7 +73,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
       </Card>
 
       {/* Manga Details Card */}
-      <Card className="mt-4 py-4 gap-2 font-Kanit">
+      <Card className="mt-4 py-4 gap-2 font-Kanit w-full">
         <div className="flex flex-col items-center text-center gap-y-2">
           <div className="overflow-hidden min-h-9 text-sm">
             <h1 className="text-lg">{manga.title}</h1>
