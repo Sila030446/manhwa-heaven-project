@@ -25,7 +25,7 @@ interface Manga {
 }
 
 async function getAllManga(): Promise<Manga[] | null> {
-  const response = await fetch(`http://localhost:8000/manga`);
+  const response = await fetch(`http://47.129.161.36/manga`);
   if (!response.ok) return null;
   const manga = await response.json();
   return manga;

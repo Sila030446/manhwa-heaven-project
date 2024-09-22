@@ -30,7 +30,7 @@ interface ChapterApiResponse {
 
 async function fetchPages(slug: string): Promise<Chapter | null> {
   try {
-    const response = await fetch(`http://localhost:8000/manga/pages/${slug}`);
+    const response = await fetch(`http://47.129.161.36/manga/pages/${slug}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch data: ${response.statusText}`);
     }

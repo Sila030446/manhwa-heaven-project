@@ -43,7 +43,7 @@ interface Manga {
 
 // Fetching manga data based on slug
 async function getManga(slug: string): Promise<Manga | null> {
-  const response = await fetch(`http://localhost:8000/manga/${slug}`);
+  const response = await fetch(`http://47.129.161.36/manga/${slug}`);
   if (!response.ok) return null;
   const manga: Manga = await response.json();
   return manga;

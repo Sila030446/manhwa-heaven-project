@@ -41,7 +41,7 @@ const usePopularManga = () => {
   useEffect(() => {
     const fetchPopularManga = async () => {
       try {
-        const response = await fetch("http://localhost:8000/manga/popular");
+        const response = await fetch("http://47.129.161.36/manga/popular");
         if (!response.ok) throw new Error("Failed to fetch popular manga");
 
         // Adding type safety for the response
