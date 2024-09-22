@@ -5,6 +5,13 @@ const nextConfig = {
       "https://manga-heaven.s3.ap-southeast-1.amazonaws.com/",
       "manga-heaven.s3.ap-southeast-1.amazonaws.com",
     ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "manga-heaven.s3.ap-southeast-1.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

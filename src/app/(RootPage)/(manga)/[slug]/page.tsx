@@ -73,82 +73,78 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
       </Card>
 
       {/* Manga Details Card */}
-      <Card className="mt-4 py-4 gap-2 font-Kanit w-full">
-        <div className="flex flex-col items-center text-center gap-y-2">
-          <div className="overflow-hidden min-h-9 text-sm">
-            <h1 className="text-lg">{manga.title}</h1>
-            <h2 className="text-foreground-400">{manga.alternativeTitle}</h2>
-          </div>
-          <div className="max-w-[180px] flex flex-col gap-2">
+      <Card className="mt-4 p-4 gap-2 font-Kanit w-full">
+        <div className="flex flex-col md:flex-row items-center md:items-start  gap-y-2 ">
+          <div className="min-w-[300px] md:min-w-[230px]  flex flex-col gap-2">
             <Image src={manga.coverImageUrl} alt={manga.title} />
             <Button color="danger" startContent={<BookmarkIcon />}>
               Bookmark
             </Button>
-          </div>
-        </div>
-        <div className="px-2 text-sm text-left leading-normal">
-          <h3>เรื่องย่อ {manga.title}</h3>
-          <p className="text-foreground-400">{manga.description}</p>
-        </div>
-
-        {/* Info Table */}
-        <div className="px-4 py-4">
-          <div>
-            <h1>Type</h1>
-            {manga.type.map((item) => (
-              <p
-                className="font-light text-sm text-foreground-400"
-                key={item.id}
-              >
-                {item.name}
-              </p>
-            ))}
-          </div>
-          <div>
-            <h1>Status</h1>
-            <p className="font-light text-sm text-foreground-400">
-              {manga.status}
-            </p>
-          </div>
-          <div>
-            <h1>Author</h1>
-            {manga.authors.map((author) => (
-              <p
-                className="font-light text-sm text-foreground-400"
-                key={author.id}
-              >
-                {author.name}
-              </p>
-            ))}
-          </div>
-          <div>
-            <h1>Serialization</h1>
-            <p className="font-light text-sm text-foreground-400">
-              {manga.serialization}
-            </p>
-          </div>
-          <div>
-            <h1>CreateAt</h1>
-            <p className="font-light text-sm text-foreground-400">
-              {new Date(manga.createdAt).toLocaleDateString("th-TH")}
-            </p>
-          </div>
-          <div>
-            <h1>UpdateAt</h1>
-            <p className="font-light text-sm text-foreground-400">
-              {new Date(manga.updatedAt).toLocaleDateString("th-TH")}
-            </p>
-          </div>
-          <h1>Genres</h1>
-          <div className="flex flex-wrap overflow-auto gap-1">
-            {manga.genres.map((genre) => (
-              <div key={genre.id}>
-                {/* Added margin for spacing */}
-                <Link href={`genres/${genre.slug}`}>
-                  <Button>{genre.name}</Button>
-                </Link>
+            <div className="flex md:flex-col flex-row gap-1 text-sm">
+              <div className="flex w-full gap-x-0.5 items-center justify-between p-2 bg-foreground-300 rounded-lg">
+                <h1>Type</h1>
+                {manga.type.map((item) => (
+                  <p key={item.id}>{item.name}</p>
+                ))}
               </div>
-            ))}
+              <div className="flex w-full gap-x-0.5 items-center justify-between p-2 bg-foreground-300 rounded-lg">
+                <p>Status</p>
+                <span>{manga.status}</span>
+              </div>
+            </div>
+          </div>
+          <div className="overflow-hidden min-h-9 text-sm text-center md:text-start px-2">
+            <h1 className="text-lg md:text-2xl">{manga.title}</h1>
+            <h2 className="text-foreground-400 line-clamp-2">
+              {manga.alternativeTitle}
+            </h2>
+            <div className=" text-sm text-left leading-normal">
+              <h3>เรื่องย่อ {manga.title}</h3>
+              <p className="text-foreground-400">{manga.description}</p>
+            </div>
+            {/* Info Table */}
+            <div className="text-start">
+              <div>
+                <h1>Author</h1>
+                {manga.authors.map((author) => (
+                  <p
+                    className="font-light text-sm text-foreground-400"
+                    key={author.id}
+                  >
+                    {author.name}
+                  </p>
+                ))}
+              </div>
+              <div>
+                <h1>Serialization</h1>
+                <p className="font-light text-sm text-foreground-400">
+                  {manga.serialization}
+                </p>
+              </div>
+              <div>
+                <h1>CreateAt</h1>
+                <p className="font-light text-sm text-foreground-400">
+                  {new Date(manga.createdAt).toLocaleDateString("th-TH")}
+                </p>
+              </div>
+              <div>
+                <h1>UpdateAt</h1>
+                <p className="font-light text-sm text-foreground-400">
+                  {new Date(manga.updatedAt).toLocaleDateString("th-TH")}
+                </p>
+              </div>
+              <h1>Genres</h1>
+              <div className="flex flex-wrap overflow-auto gap-1">
+                {manga.genres.map((genre) => (
+                  <div key={genre.id}>
+                    {/* Added margin for spacing */}
+                    <Link href={`genres/${genre.slug}`}>
+                      <Button size="sm">{genre.name}</Button>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </Card>
@@ -157,17 +153,18 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
           <div className="w-full">
             {manga.chapters.map((chapter) => (
               <Link
-                className="w-full"
+                className="w-full text-foreground"
                 key={chapter.chapterNumber}
                 href={`/chapter/${chapter.slug}`}
               >
                 <Button
+                  variant="bordered"
                   endContent={
-                    <p>
+                    <span>
                       {new Date(chapter.createdAt).toLocaleDateString("th-TH")}
-                    </p>
+                    </span>
                   }
-                  className="my-1"
+                  className="my-1 "
                   fullWidth
                 >
                   {chapter.title}

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Slider from "react-slick";
-import usePopularManga from "../Hooks/usePopularManga";
+import usePopularManga from "../../Hooks/usePopularManga";
 import { Chip, Skeleton } from "@nextui-org/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -44,7 +44,7 @@ const HeroCarousel: React.FC = () => {
 
   return (
     <div className="p-4 rounded-lg">
-      <Slider {...settings} className="max-w-full">
+      <Slider {...settings} className="max-w-full h-full">
         {mangaList.map((manga) => (
           <div key={manga.id} className="w-full h-full rounded-3xl">
             <div className="absolute -z-10 ">
@@ -54,12 +54,13 @@ const HeroCarousel: React.FC = () => {
                 width={1500}
                 height={350}
                 alt={manga.title}
+                unoptimized
               />
             </div>
             <div
-              className={`h-full flex flex-col md:flex-row bg-dark-200 p-3 rounded-none shadow-xl max-w-[100%] min-h-[100%] mx-auto backdrop-blur-xl filter backdrop-brightness-50 `}
+              className={`h-full flex items-center md:items-start justify-start flex-col md:flex-row bg-dark-200 p-3 rounded-none shadow-xl max-w-[100%] min-h-[100%] mx-auto backdrop-blur-xl filter backdrop-brightness-50 `}
             >
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 relative">
                 <Link href={manga.slug}>
                   <Image
                     src={manga.coverImageUrl}
@@ -68,39 +69,50 @@ const HeroCarousel: React.FC = () => {
                     height={1080}
                     objectFit="cover"
                     quality={100}
-                    className="w-full md:w-48 h-64 md:h-80 rounded-lg object-cover"
+                    className="w-full  md:w-48 h-64 md:h-80 rounded-lg object-cover"
                   />
                 </Link>
+
+                {manga.type.map((type) => (
+                  <Link
+                    className="absolute top-1 right-1"
+                    key={type.id}
+                    href={`/type/${type.slug}`}
+                  >
+                    <Chip className="mx-0.5 my-0.5" color="danger">
+                      {type.name}
+                    </Chip>
+                  </Link>
+                ))}
               </div>
               <div className="mt-4 md:mt-0 md:ml-4 flex-grow">
                 <div className="flex justify-between items-center mb-2">
                   <Link color="foreground" href={manga.slug}>
-                    <h3 className="font-semibold text-lg md:text-2xl font-Kanit text-white line-clamp-3">
+                    <h3 className="font-semibold text-lg md:text-2xl font-Kanit text-white line-clamp-1">
                       {manga.title}
                     </h3>
                   </Link>
-                  {manga.type.map((type) => (
-                    <Link key={type.id} href={`/type/${type.slug}`}>
-                      <Chip className="mx-0.5 my-0.5" color="danger">
-                        {type.name}
-                      </Chip>
-                    </Link>
-                  ))}
                 </div>
-                <div className="flex flex-wrap mb-2">
+                <div className="flex flex-wrap mb-2 max-h-[3rem] overflow-hidden">
                   {manga.genres.map((genre) => (
                     <Link
                       key={genre.id}
-                      className="mx-0.5 mb-0.5 overflow-hidden font-Kanit"
+                      className="mx-0.5 mb-0.5 overflow-hidden font-Kanit line-clamp-2"
                       href={`/genre/${genre.slug}`}
                     >
-                      <Chip color="warning">{genre.name}</Chip>
+                      <span className="text-warning">{genre.name}</span>
                     </Link>
                   ))}
                 </div>
                 <p className="text-foreground-500 font-Kanit text-sm md:text-base line-clamp-3 mb-2 overflow-hidden">
                   {manga.description}
                 </p>
+                {manga.authors.map((author) => (
+                  <div className="flex gap-1" key={author.id}>
+                    <p>Author :</p>
+                    <span>{author.name}</span>
+                  </div>
+                ))}
                 <div className="flex justify-between items-center mt-2">
                   <Chip size="md" color="success">
                     {manga.status}

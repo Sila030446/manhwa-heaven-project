@@ -95,7 +95,7 @@ const ChapterPage = ({ params }: { params: { slug: string } }) => {
   };
 
   if (loading) {
-    return <div className="text-center my-10">Loading pages...</div>;
+    return <div className="text-center my-10 h-screen">Loading pages...</div>;
   }
 
   if (!chapter || !chapter.pages) {

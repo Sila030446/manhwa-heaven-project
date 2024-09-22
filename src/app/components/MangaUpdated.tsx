@@ -42,7 +42,7 @@ const MangaUpdated = async () => {
       </CardHeader>
       <Divider />
       <CardBody>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-1">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
           {mangas.map(
             (
               manga: Manga // Use the Manga type here

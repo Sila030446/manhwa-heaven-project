@@ -1,4 +1,4 @@
-import HeroCarousel from "../components/HeroCarousel";
+import HeroCarousel from "../components/Home/HeroCarousel";
 import MangaUpdated from "../components/MangaUpdated";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
         <div className="col-span-3 mb-2">
           <HeroCarousel />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-3">
           <MangaUpdated />
         </div>
       </div>

@@ -50,7 +50,7 @@ export default function App() {
             </p>
           </Link>
         </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className="hidden md:flex gap-4" justify="center">
           {menuItems.map((menuItem) => (
             <NavbarMenuItem key={menuItem.title}>
               <Link color="foreground" href={menuItem.href}>
@@ -69,7 +69,7 @@ export default function App() {
 
       <NavbarContent justify="end" className="items-center gap-4">
         {/* Improved Search Bar */}
-        <NavbarItem className="hidden md:flex w-full max-w-[300px]">
+        <NavbarItem className="hidden lg:flex w-full max-w-[300px]">
           <SearchInput />
         </NavbarItem>
 

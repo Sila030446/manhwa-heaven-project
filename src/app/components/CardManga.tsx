@@ -29,14 +29,15 @@ interface CardMangaProps {
 
 const CardManga: React.FC<CardMangaProps> = ({ manga }) => {
   return (
-    <Card className="grid grid-cols-1 justify-center items-center gap-y-0.5 p-2">
-      <div className="relative flex flex-shrink-0 items-center justify-center max-w-[150px] min-h-[200px] md:max-w-[180px] md:min-h-[246px]">
+    <Card className="flex flex-col items-center justify-center p-4 gap-y-2 flex-shrink-0">
+      {/* Image and Chip */}
+      <div className="relative flex items-center justify-center max-w-[150px] min-h-[200px] md:max-w-[180px] md:min-h-[246px]">
         <Link href={`/${manga.slug}`}>
           <Image
             isZoomed
             src={manga.coverImageUrl}
             alt={manga.title}
-            className="md:h-[246px] h-[200px]"
+            className="md:h-[246px] h-[200px] object-cover"
           />
         </Link>
         {manga.type &&
@@ -46,23 +47,31 @@ const CardManga: React.FC<CardMangaProps> = ({ manga }) => {
               key={type.id}
               color="danger"
               size="sm"
-              className="absolute top-1 right-1 z-10" // Positioning inside the image
+              className="absolute top-1 right-1 z-10"
             >
               {type.name}
             </Chip>
           ))}
       </div>
+
+      {/* Manga Title */}
       <div className="text-center">
         <Link href={`/${manga.slug}`}>
-          <h1 className="line-clamp-1 text-sm font-semibold text-white dark:text-white">
+          <h1 className="line-clamp-1 text-sm font-semibold text-white">
             {manga.title}
           </h1>
         </Link>
       </div>
-      <div className="w-full flex flex-col gap-1">
+
+      {/* Chapters */}
+      <div className="w-full flex flex-col items-center gap-1">
         {manga.chapters &&
           manga.chapters.slice(0, 2).map((chapter) => (
-            <Link href={`/chapter/${chapter.slug}`} key={chapter.id}>
+            <Link
+              href={`/chapter/${chapter.slug}`}
+              key={chapter.id}
+              className="w-full"
+            >
               <Button
                 size="sm"
                 fullWidth

@@ -5,3 +5,8 @@
 .slick-dots {
   top: 90%;
 }
+
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
