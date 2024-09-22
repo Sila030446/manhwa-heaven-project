@@ -11,7 +11,7 @@ export default function ScrapeQueue() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await axios.get("http://localhost:8000/job");
+        const data = await axios.get("http://47.129.161.36/job");
         if (!data) throw new Error("Network response was not ok");
         setOnGoingJob(data.data.onGoingJobsCount);
       } catch (error) {
@@ -22,7 +22,7 @@ export default function ScrapeQueue() {
           icon: "error",
           title: "Server Error",
           text: "Failed to fetch data from the Server. Please try again later.",
-          footer: `<a href="http://localhost:8000">Check Backend Server</a>`, // Optional link for debugging
+          footer: `<a href="http://47.129.161.36/">Check Backend Server</a>`, // Optional link for debugging
         });
       }
     };

@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 // Type definitions
@@ -41,14 +42,12 @@ const usePopularManga = () => {
   useEffect(() => {
     const fetchPopularManga = async () => {
       try {
-        const response = await fetch("http://47.129.161.36/manga/popular");
-        if (!response.ok) throw new Error("Failed to fetch popular manga");
+        const response = await axios.get("http://47.129.161.36/manga/popular");
 
-        // Adding type safety for the response
-        const data: Manga[] = await response.json();
+        // The response data is accessed directly via response.data
+        const data: Manga[] = response.data;
         setMangaList(data);
       } catch (error: unknown) {
-        // Type narrowing for error object
         if (error instanceof Error) {
           setError(error.message); // Handle error with proper type
         } else {
