@@ -6,7 +6,7 @@ services:
     container_name: nextjs-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "80:3000"
     environment:
       - NODE_ENV=production
       # Add any other environment variables needed for your app

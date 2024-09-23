@@ -1,7 +1,10 @@
+// app/manga/[slug]/page.tsx
+
 import { Card, CardBody, Link, Image, Button } from "@nextui-org/react";
 import { BookmarkIcon } from "lucide-react";
 import React from "react";
 
+// Define your interfaces
 interface Type {
   id: number;
   name: string;
@@ -43,16 +46,27 @@ interface Manga {
 
 // Fetching manga data based on slug
 async function getManga(slug: string): Promise<Manga | null> {
-  const response = await fetch(`http://47.129.161.36/manga/${slug}`);
+  const response = await fetch(`http://47.129.161.36/manga/${slug}`, {
+    // Ensure the fetch runs on the server
+    cache: "no-store", // or 'force-cache' based on your needs
+  });
   if (!response.ok) return null;
   const manga: Manga = await response.json();
   return manga;
 }
 
-const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
+interface ChaptersPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+const ChaptersPage = async ({ params }: ChaptersPageProps) => {
   const manga = await getManga(params.slug);
 
-  if (!manga) return <div className="text-center my-10">No manga found</div>;
+  if (!manga) {
+    return <div className="text-center my-10">No manga found</div>;
+  }
 
   return (
     <div className="container mx-auto py-10 px-4 md:px-8 lg:px-16 flex items-center justify-center flex-col gap-2">
@@ -65,7 +79,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
               มังงะ อ่านมังงะ Manga Manhwa เว็บอ่านการ์ตูนออนไลน์
             </Link>
             <span>&gt;</span>
-            <Link href={manga.slug} className="transition-colors">
+            <Link href={`/manga/${manga.slug}`} className="transition-colors">
               {manga.title}
             </Link>
           </div>
@@ -74,8 +88,8 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
 
       {/* Manga Details Card */}
       <Card className="mt-4 p-4 gap-2 font-Kanit w-full">
-        <div className="flex flex-col md:flex-row items-center md:items-start  gap-y-2 ">
-          <div className="min-w-[300px] md:min-w-[230px]  flex flex-col gap-2">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-y-2">
+          <div className="min-w-[300px] md:min-w-[230px] flex flex-col gap-2">
             <Image src={manga.coverImageUrl} alt={manga.title} />
             <Button color="danger" startContent={<BookmarkIcon />}>
               Bookmark
@@ -98,7 +112,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
             <h2 className="text-foreground-400 line-clamp-2">
               {manga.alternativeTitle}
             </h2>
-            <div className=" text-sm text-left leading-normal">
+            <div className="text-sm text-left leading-normal">
               <h3>เรื่องย่อ {manga.title}</h3>
               <p className="text-foreground-400">{manga.description}</p>
             </div>
@@ -122,13 +136,13 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
                 </p>
               </div>
               <div>
-                <h1>CreateAt</h1>
+                <h1>Created At</h1>
                 <p className="font-light text-sm text-foreground-400">
                   {new Date(manga.createdAt).toLocaleDateString("th-TH")}
                 </p>
               </div>
               <div>
-                <h1>UpdateAt</h1>
+                <h1>Updated At</h1>
                 <p className="font-light text-sm text-foreground-400">
                   {new Date(manga.updatedAt).toLocaleDateString("th-TH")}
                 </p>
@@ -137,8 +151,7 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
               <div className="flex flex-wrap overflow-auto gap-1">
                 {manga.genres.map((genre) => (
                   <div key={genre.id}>
-                    {/* Added margin for spacing */}
-                    <Link href={`genres/${genre.slug}`}>
+                    <Link href={`/genres/${genre.slug}`}>
                       <Button size="sm">{genre.name}</Button>
                     </Link>
                   </div>
@@ -148,7 +161,9 @@ const ChaptersPage = async ({ params }: { params: { slug: string } }) => {
           </div>
         </div>
       </Card>
-      <Card className="h-[500px]">
+
+      {/* Manga Chapters */}
+      <Card className="h-[500px] w-full overflow-auto">
         <CardBody>
           <div className="w-full">
             {manga.chapters.map((chapter) => (

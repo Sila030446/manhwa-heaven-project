@@ -1,4 +1,5 @@
-// MangaUpdated.tsx
+// app/components/MangaUpdated.tsx
+
 import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import CardManga from "./CardManga";
 
@@ -24,32 +25,49 @@ interface Manga {
   type: Type[];
 }
 
+// Fetching all manga data
 async function getAllManga(): Promise<Manga[] | null> {
-  const response = await fetch(`http://47.129.161.36/manga`);
-  if (!response.ok) return null;
-  const manga = await response.json();
-  return manga;
+  const response = await fetch(`http://47.129.161.36/manga`, {
+    // Adjust cache behavior as needed
+    // 'no-store' for always fresh data
+    // 'force-cache' or other options based on your requirements
+    cache: "no-store",
+    // Revalidate after a certain time if using caching
+    // next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
+
+  if (!response.ok) {
+    console.error("Failed to fetch manga:", response.statusText);
+    return null;
+  }
+
+  try {
+    const manga: Manga[] = await response.json();
+    return manga;
+  } catch (error) {
+    console.error("Error parsing manga data:", error);
+    return null;
+  }
 }
 
 const MangaUpdated = async () => {
   const mangas = await getAllManga();
 
-  if (!mangas) return <div className="text-center my-10">No manga found</div>;
+  if (!mangas || mangas.length === 0) {
+    return <div className="text-center my-10">No manga found</div>;
+  }
+
   return (
-    <Card>
+    <Card className="my-8">
       <CardHeader>
-        <h1>มังงะ อัพเดตใหม่</h1>
+        <h1 className="text-2xl font-bold">มังงะ อัพเดตใหม่</h1>
       </CardHeader>
       <Divider />
       <CardBody>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
-          {mangas.map(
-            (
-              manga: Manga // Use the Manga type here
-            ) => (
-              <CardManga key={manga.id} manga={manga} />
-            )
-          )}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {mangas.map((manga: Manga) => (
+            <CardManga key={manga.id} manga={manga} />
+          ))}
         </div>
       </CardBody>
     </Card>
