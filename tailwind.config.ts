@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         Kanit: ["var(--font-kanit)"],
+        Anton: ["var(--font-anton)"],
       },
       colors: {
         background: "var(--background)",

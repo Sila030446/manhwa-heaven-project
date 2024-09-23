@@ -10,19 +10,17 @@ import {
   NavbarMenuItem,
   Button,
 } from "@nextui-org/react";
-import { FcEnteringHeavenAlive } from "react-icons/fc";
 import { CiBookmark } from "react-icons/ci";
 import { ThemeSwitcher } from "../ThemeSwitcher";
-import { Bungee } from "next/font/google";
+import { Anton } from "next/font/google";
 import Link from "next/link";
 
 import SearchInput from "../SearchInput";
 
-// กำหนดฟอนต์ Kanit
-
-const bungee = Bungee({
+const anton = Anton({
   subsets: ["latin"],
   weight: ["400"],
+  variable: "--font-Anton",
 });
 
 export default function App() {
@@ -44,9 +42,8 @@ export default function App() {
         />
         <NavbarBrand>
           <Link href={"/"} className="flex items-center justify-center">
-            <FcEnteringHeavenAlive size={48} />
-            <p className={` font-bold text-inherit ${bungee.className}`}>
-              MANHWA-HEAVEN
+            <p className={`text-2xl  text-inherit ${anton.className} `}>
+              Nexamanga
             </p>
           </Link>
         </NavbarBrand>

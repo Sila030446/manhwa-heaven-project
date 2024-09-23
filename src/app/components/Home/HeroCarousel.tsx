@@ -69,7 +69,7 @@ const HeroCarousel: React.FC = () => {
                     height={1080}
                     objectFit="cover"
                     quality={100}
-                    className="w-full  md:w-48 h-64 md:h-80 rounded-lg object-cover"
+                    className="w-full  md:w-48 h-64 md:h-80 object-cover"
                   />
                 </Link>
 

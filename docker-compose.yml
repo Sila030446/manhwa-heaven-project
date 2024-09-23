@@ -1,12 +1,21 @@
-version: "3.8"
-
 services:
   nextjs-app:
     build: .
     container_name: nextjs-app
     restart: unless-stopped
     ports:
-      - "80:3000"
+      - "3000:3000" # ใช้พอร์ตนี้ภายใน container เท่านั้น
     environment:
       - NODE_ENV=production
       # Add any other environment variables needed for your app
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80" # เปิดพอร์ต 80 สำหรับ HTTP
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf # เชื่อมต่อไฟล์ config
+    depends_on:
+      - nextjs-app

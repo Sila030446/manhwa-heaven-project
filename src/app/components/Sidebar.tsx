@@ -1,31 +1,36 @@
 "use client";
 import { Avatar, Button } from "@nextui-org/react";
 import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
-import Image from "next/image";
+import { Anton } from "next/font/google";
 import Link from "next/link";
 import { createContext, useState, ReactNode, useContext } from "react";
+import { useRouter } from "next/navigation";
 
 type SidebarContextType = {
   expanded: boolean;
 };
 
 const SidebarContext = createContext<SidebarContextType>({ expanded: true });
+const anton = Anton({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const [expanded, setExpanded] = useState(true);
+  const router = useRouter();
   return (
     <aside className="h-[100vh] sticky top-0 z-50">
       <nav className="h-full flex flex-col bg-default-50 border-r dark:border-gray-900 shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
-          <Image
-            src={"https://img.logoipsum.com/243.svg"}
-            alt="logo"
-            width={500}
-            height={500}
-            className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
-          />
+          <h1
+            className={`overflow-hidden transition-all  text-2xl ${
+              anton.className
+            } ${expanded ? "w-32" : "w-0"}`}
+            onClick={() => router.push("/")}
+          >
+            Nexamanga
+          </h1>
           <Button
             isIconOnly
             className="bg-default-100"
