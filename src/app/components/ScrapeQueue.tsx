@@ -11,7 +11,7 @@ export default function ScrapeQueue() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await axios.get("http://47.129.161.36/job");
+        const data = await axios.get("https://api.nexamanga.online/job");
         if (!data) throw new Error("Network response was not ok");
         setOnGoingJob(data.data.onGoingJobsCount);
       } catch (error) {
