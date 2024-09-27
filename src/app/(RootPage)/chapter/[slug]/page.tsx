@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Image, Button, Progress, Select, SelectItem } from "@nextui-org/react";
 import { ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
+import Head from "next/head"; // Import Head for metadata
 
 interface Page {
   id: number;
@@ -36,12 +37,7 @@ interface ChapterApiResponse {
   allChapters: Chapters[];
 }
 
-/**
- * Fetches chapter data from the server based on the provided slug.
- *
- * @param {string} slug - The slug of the chapter to fetch.
- * @return {Promise<Chapter | null>} The fetched chapter data, or null if the fetch fails.
- */
+// Fetch chapter data from the server
 const fetchPages = async (slug: string): Promise<Chapter | null> => {
   try {
     const response = await fetch(
@@ -70,12 +66,6 @@ interface ChapterPageProps {
   params: { slug: string };
 }
 
-/**
- * A functional component that renders a chapter page with images and navigation.
- *
- * @param {ChapterPageProps} props - The component props.
- * @return {JSX.Element} The rendered chapter page.
- */
 const ChapterPage: React.FC<ChapterPageProps> = ({ params }) => {
   const router = useRouter();
   const [chapter, setChapter] = useState<Chapter | null>(null);
@@ -128,6 +118,47 @@ const ChapterPage: React.FC<ChapterPageProps> = ({ params }) => {
 
   return (
     <section className="content container mx-auto my-5">
+      {/* SEO Metadata */}
+      <Head>
+        <title>{`Read ${chapter.title} | Nexamanga`}</title>
+        <meta
+          name="description"
+          content={`Read the latest chapter "${chapter.title}" on Nexamanga. Enjoy high-quality images and seamless reading experience.`}
+        />
+        <meta
+          name="keywords"
+          content={`manga, manhwa, manhua, online manga reader, ${chapter.title}, nexamanga`}
+        />
+        <meta
+          property="og:title"
+          content={`Read ${chapter.title} | Nexamanga`}
+        />
+        <meta
+          property="og:description"
+          content={`Enjoy reading ${chapter.title} online. High-quality manga, manhwa, and manhua reader.`}
+        />
+        <meta property="og:image" content={chapter.pages[0].imageUrl} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content={`https://www.nexamanga.com/chapter/${params.slug}`}
+        />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:title"
+          content={`Read ${chapter.title} | Nexamanga`}
+        />
+        <meta
+          property="twitter:description"
+          content={`Read the latest chapter of ${chapter.title} on Nexamanga.`}
+        />
+        <meta property="twitter:image" content={chapter.pages[0].imageUrl} />
+        <link
+          rel="canonical"
+          href={`https://www.nexamanga.com/chapter/${params.slug}`}
+        />
+      </Head>
+
       {/* Chapter Selector Dropdown */}
       <div className="mb-4 w-[90%] md:w-[300px]">
         <Select
@@ -210,7 +241,6 @@ const ChapterPage: React.FC<ChapterPageProps> = ({ params }) => {
             >
               <ChevronRight />
             </Button>
-            {/* Chapter Selector Dropdown */}
           </div>
         </div>
       </div>

@@ -24,9 +24,43 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Nexamanga",
+  title: "Nexamanga - Latest Manga, Manhwa, and Manhua Reader",
   description:
-    "Nexamanga is an online manga reader that provides the latest and greatest manga,manhwa and manhua for you.",
+    "Nexamanga is an online manga reader providing the latest and greatest manga, manhwa, and manhua. Read your favorite comics online for free!",
+  keywords: [
+    "manga",
+    "manhwa",
+    "manhua",
+    "online manga reader",
+    "free manga",
+    "Nexamanga",
+    "latest manga",
+  ],
+  openGraph: {
+    title: "Nexamanga - Online Manga Reader",
+    description:
+      "Read the latest manga, manhwa, and manhua on Nexamanga. Enjoy a wide selection of your favorite titles online.",
+    url: "https://www.nexamanga.com",
+    type: "website",
+    images: [
+      {
+        url: "https://www.nexamanga.com/og-image.jpg",
+        width: 800,
+        height: 600,
+        alt: "Nexamanga logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@Nexamanga",
+    title: "Nexamanga - Online Manga Reader",
+    description:
+      "Read the latest manga, manhwa, and manhua online. Nexamanga provides a vast library of popular titles.",
+    images: ["https://www.nexamanga.com/twitter-image.jpg"],
+  },
+  viewport: "width=device-width, initial-scale=1",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -36,12 +70,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="canonical" href="https://www.nexamanga.com" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#ffffff" />
+      </head>
       <body
         className={`antialiased ${kanit.variable} ${montserrat.variable} ${anton.variable}`}
       >
         <Providers>
-          <Header />
-          {children}
+          <header>
+            <Header />
+          </header>
+          <main>{children}</main>
           <footer className="px-4 py-4 w-full bg-gray-500">
             <p className="text-center">
               © 2024 Nexamanga. All rights reserved.
