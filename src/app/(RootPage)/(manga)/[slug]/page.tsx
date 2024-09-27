@@ -81,7 +81,7 @@ const ChaptersPage = async ({ params }: ChaptersPageProps) => {
         <meta property="og:image" content={manga.coverImageUrl} />
         <meta
           property="og:url"
-          content={`https://yourdomain.com/manga/${manga.slug}`}
+          content={`https://nexamanga.com/manga/${manga.slug}`}
         />
 
         {/* Twitter Card */}
