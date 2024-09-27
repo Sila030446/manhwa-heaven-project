@@ -1,5 +1,6 @@
-import { Card, Image, Button, Chip, Link } from "@nextui-org/react";
+import { Card, Image, Button, Link } from "@nextui-org/react";
 import timeSince from "../utils/timeSince";
+import TypeChip from "./TypeChip";
 
 interface Chapter {
   id: number;
@@ -43,21 +44,14 @@ const CardManga: React.FC<CardMangaProps> = ({ manga }) => {
         {manga.type &&
           manga.type.length > 0 &&
           manga.type.map((type) => (
-            <Chip
-              key={type.id}
-              color="danger"
-              size="sm"
-              className="absolute top-1 right-1 z-10"
-            >
-              {type.name}
-            </Chip>
+            <TypeChip key={type.id} id={type.id} name={type.name} />
           ))}
       </div>
 
       {/* Manga Title */}
       <div className="text-center">
         <Link href={`/${manga.slug}`}>
-          <h1 className="line-clamp-1 text-sm font-semibold text-white">
+          <h1 className="line-clamp-1 text-sm font-semibold text-black dark:text-white">
             {manga.title}
           </h1>
         </Link>

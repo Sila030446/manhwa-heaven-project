@@ -27,7 +27,7 @@ interface Manga {
 
 // Fetching all manga data
 async function getAllManga(): Promise<Manga[] | null> {
-  const response = await fetch(`http://47.129.161.36/manga`, {
+  const response = await fetch(`https://api.nexamanga.online/manga`, {
     // Adjust cache behavior as needed
     // 'no-store' for always fresh data
     // 'force-cache' or other options based on your requirements

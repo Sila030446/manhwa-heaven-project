@@ -2,8 +2,8 @@
 const nextConfig = {
   images: {
     domains: [
-      "https://manga-heaven.s3.ap-southeast-1.amazonaws.com/",
       "manga-heaven.s3.ap-southeast-1.amazonaws.com",
+      "nexamanga.s3.ap-southeast-2.amazonaws.com",
     ],
     remotePatterns: [
       {

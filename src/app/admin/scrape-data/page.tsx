@@ -67,7 +67,7 @@ const ScrapeManga = () => {
     }
 
     try {
-      await axios.post("http://47.129.161.36/job", {
+      await axios.post("https://api.nexamanga.online/job", {
         url: selectedManga.mangaUrl,
         jobType: { type: activeTabKey }, // Send the active tab key as the job type
       });
@@ -90,7 +90,7 @@ const ScrapeManga = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await axios.get("http://47.129.161.36/job");
+        const data = await axios.get("https://api.nexamanga.online/job");
         if (!data) throw new Error("Network response was not ok");
         setJobs(data.data.jobs);
       } catch (error) {
@@ -101,7 +101,7 @@ const ScrapeManga = () => {
           icon: "error",
           title: "Server Error",
           text: "Failed to fetch data from the Server. Please try again later.",
-          footer: `<a href="http://47.129.161.36/">Check Backend Server</a>`, // Optional link for debugging
+          footer: `<a href="https://api.nexamanga.online/">Check Backend Server</a>`, // Optional link for debugging
         });
       }
     };

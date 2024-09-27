@@ -42,7 +42,9 @@ const usePopularManga = () => {
   useEffect(() => {
     const fetchPopularManga = async () => {
       try {
-        const response = await axios.get("http://47.129.161.36/manga/popular");
+        const response = await axios.get(
+          `https://api.nexamanga.online/manga/popular`
+        );
 
         // The response data is accessed directly via response.data
         const data: Manga[] = response.data;

@@ -46,7 +46,7 @@ interface Manga {
 
 // Fetching manga data based on slug
 async function getManga(slug: string): Promise<Manga | null> {
-  const response = await fetch(`http://47.129.161.36/manga/${slug}`, {
+  const response = await fetch(`https://api.nexamanga.online/manga/${slug}`, {
     // Ensure the fetch runs on the server
     cache: "no-store", // or 'force-cache' based on your needs
   });
@@ -89,7 +89,7 @@ const ChaptersPage = async ({ params }: ChaptersPageProps) => {
       {/* Manga Details Card */}
       <Card className="mt-4 p-4 gap-2 font-Kanit w-full">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-y-2">
-          <div className="min-w-[300px] md:min-w-[230px] flex flex-col gap-2">
+          <div className="min-w-[110px]  md:min-w-[180px] flex flex-col gap-2">
             <Image src={manga.coverImageUrl} alt={manga.title} />
             <Button color="danger" startContent={<BookmarkIcon />}>
               Bookmark
@@ -108,10 +108,12 @@ const ChaptersPage = async ({ params }: ChaptersPageProps) => {
             </div>
           </div>
           <div className="overflow-hidden min-h-9 text-sm text-center md:text-start px-2">
-            <h1 className="text-lg md:text-2xl">{manga.title}</h1>
-            <h2 className="text-foreground-400 line-clamp-2">
-              {manga.alternativeTitle}
-            </h2>
+            <div className="mb-3">
+              <h1 className="text-lg md:text-2xl">{manga.title}</h1>
+              <h2 className="text-foreground-400 line-clamp-2">
+                {manga.alternativeTitle}
+              </h2>
+            </div>
             <div className="text-sm text-left leading-normal">
               <h3>เรื่องย่อ {manga.title}</h3>
               <p className="text-foreground-400">{manga.description}</p>
